@@ -20,6 +20,9 @@ jobs:
       run: dfx --version
 
     - uses: ZenVoich/setup-mops@v1
+    - name: init mops
+      run: mops init
+    
     - name: make sure moc is installed
       run: mops toolchain bin moc || mops toolchain use moc latest
 
