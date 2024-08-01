@@ -18,18 +18,16 @@ jobs:
     
     - name: Confirm dfx installation
       run: dfx --version
-       l   s -la /home/runner/.cache/dfinity/versions/0.15.1
+
+    - uses: ZenVoich/setup-mops@v1
+
+    - name: Ensure moc is installed
+      run: mops toolchain bin moc || mops toolchain use moc latest
     
     - name: Setup Node.js
       uses: actions/setup-node@v2
       with:
         node-version: '16'
-    
-    - name: Install mops
-      run: npm install -g ic-mops
-    
-    - name: Confirm mops installation
-      run: mops --version
     
     - name: Add map package using mops
       run: mops add map
