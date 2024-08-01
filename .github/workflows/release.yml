@@ -28,14 +28,6 @@ jobs:
           echo 'moc = "latest"' >> mops.toml
         fi
 
-    - name: Ensure moc is installed
-      run: mops toolchain bin moc || mops toolchain use moc latest
-    
-    - name: Setup Node.js
-      uses: actions/setup-node@v2
-      with:
-        node-version: '16'
-    
     - name: Add map package using mops
       run: mops add map
     
