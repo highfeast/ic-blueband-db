@@ -21,21 +21,7 @@ jobs:
 
       - uses: ZenVoich/setup-mops@v1
       
-      - name: Initialize mops
-        run: |
-          if [ ! -f mops.toml ]; then
-            sudo apt-get update
-            sudo apt-get install -y expect
-            expect <<-EOF
-            spawn mops init
-            expect "Select type:"
-            send "Project\r"
-            expect eof
-            EOF
-          fi
-      
       - name: Ensure moc is installed
         run: mops toolchain use moc latest || mops toolchain install
 
-      - name: Add map package
-        run: mops add map
+   
