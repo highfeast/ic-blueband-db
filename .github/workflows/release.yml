@@ -27,4 +27,10 @@ jobs:
       - name: Add packages
         run: mops add base map
 
+      - name: Build canister
+        run: |
+          dfx start --background
+          dfx canister create --all
+          dfx build
+
    
