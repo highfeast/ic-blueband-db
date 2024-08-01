@@ -21,10 +21,10 @@ jobs:
 
       - uses: ZenVoich/setup-mops@v1
       
-      # - name: Ensure moc is installed
-      #   run: mops toolchain use moc latest || mops toolchain install
+      - name: Ensure moc is installed
+        run: mops toolchain use moc latest || mops toolchain install
 
       - name: Add packages
-        run: mops install
+        run: mops add base
 
    
