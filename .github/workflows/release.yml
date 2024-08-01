@@ -11,14 +11,22 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     
-    - name: Set up dfx
-      uses: dfinity/setup-dfx@v1
+    - name: Install dfx
+      uses: dfinity/setup-dfx@main
+      with:
+       dfx-version: "0.15.1"  # You can specify the version you want to use
+    
+    - name: Confirm dfx installation
+      run: dfx --version
     
     - name: Build canister
-      run: dfx build
+      run: |
+        dfx start --background
+        dfx canister create --all
+        dfx build
     
     - name: Compress wasm
-      run: gzip -c ./.dfx/ic/canisters/blueband-db/blueband-db.wasm > ./blueband-db.wasm.gz
+      run: gzip -c .dfx/local/canisters/blueband-db/blueband-db.wasm > ./blueband-db.wasm.gz
     
     - name: Create Release
       id: create_release
