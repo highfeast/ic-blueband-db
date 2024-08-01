@@ -1,0 +1,42 @@
+name: Build and Release Canister
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  build-and-release:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    
+    - name: Set up dfx
+      uses: dfinity/setup-dfx@v1
+    
+    - name: Build canister
+      run: dfx build
+    
+    - name: Compress wasm
+      run: gzip -c ./.dfx/ic/canisters/blueband-db/blueband-db.wasm > ./blueband-db.wasm.gz
+    
+    - name: Create Release
+      id: create_release
+      uses: actions/create-release@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        tag_name: ${{ github.ref }}
+        release_name: Release ${{ github.ref }}
+        draft: false
+        prerelease: false
+    
+    - name: Upload wasm.gz
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }}
+        asset_path: ./blueband-db.wasm.gz
+        asset_name: blueband-db.wasm.gz
+        asset_content_type: application/gzip

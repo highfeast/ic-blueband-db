@@ -1,0 +1,7 @@
+[package]
+name = "blueband-db"
+version = "1.0.0"
+description = ""
+repository = "https://github.com/highfeast/blueband-db"
+keywords = [ ]
+license = "MIT"
