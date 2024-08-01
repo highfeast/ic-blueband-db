@@ -14,7 +14,7 @@ jobs:
     - name: Install dfx
       uses: dfinity/setup-dfx@main
       with:
-         dfx-version: "0.14.2-beta.2"
+        dfx-version: "0.14.2-beta.2"  
     
     - name: Confirm dfx installation
       run: dfx --version
@@ -30,18 +30,17 @@ jobs:
     - name: Confirm mops installation
       run: mops --version
     
-    - name: Install mops packages
-      run: mops install
+    - name: Add map package using mops
+      run: mops add map
     
     - name: Build canister
       run: |
         dfx start --background
         dfx canister create --all
-        mops sources
         dfx build
     
     - name: Compress wasm
-      run: gzip -c .dfx/local/canisters/blueband-db/blueband-db.wasm > ./blueband-db.wasm.gz
+      run: gzip -c .dfx/local/canisters/blueband-db-backend/blueband-db-backend.wasm > ./blueband-db-backend.wasm.gz
     
     - name: Create Release
       id: create_release
@@ -60,6 +59,6 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
         upload_url: ${{ steps.create_release.outputs.upload_url }}
-        asset_path: ./blueband-db.wasm.gz
-        asset_name: blueband-db.wasm.gz
+        asset_path: ./blueband-db-backend.wasm.gz
+        asset_name: blueband-db-backend.wasm.gz
         asset_content_type: application/gzip
