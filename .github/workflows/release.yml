@@ -25,36 +25,7 @@ jobs:
         echo '[dependencies]' > mops.toml
         echo 'map = "9.0.1"' >> mops.toml
 
-
-    - name: Install dependencies using mops
-      run: mops install
-    
-    - name: Build canister
+    - name: Ensure moc is installed
       run: |
-        dfx start --background
-        dfx canister create --all
-        dfx build
-    
-    - name: Compress wasm
-      run: gzip -c .dfx/local/canisters/blueband-db-backend/blueband-db-backend.wasm > ./blueband-db-backend.wasm.gz
-    
-    - name: Create Release
-      id: create_release
-      uses: actions/create-release@v1
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      with:
-        tag_name: ${{ github.ref }}
-        release_name: Release ${{ github.ref }}
-        draft: false
-        prerelease: false
-    
-    - name: Upload wasm.gz
-      uses: actions/upload-release-asset@v1
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      with:
-        upload_url: ${{ steps.create_release.outputs.upload_url }}
-        asset_path: ./blueband-db-backend.wasm.gz
-        asset_name: blueband-db-backend.wasm.gz
-        asset_content_type: application/gzip
+        mops toolchain use moc latest || mops toolchain install 
+
