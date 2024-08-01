@@ -24,8 +24,11 @@ jobs:
       - name: Ensure moc is installed
         run: mops toolchain use moc latest || mops toolchain install
 
-      - name: Add packages
-        run: mops add base map
+      - name: Add base
+        run: mops add base
+
+      - name: Add map
+        run: mops add map
 
       - name: Build canister
         run: |
