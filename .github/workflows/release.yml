@@ -9,32 +9,33 @@ jobs:
   build-and-release:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v4
-    
-    - name: Install dfx
-      uses: dfinity/setup-dfx@main
-      with:
-        dfx-version: "0.15.1"  
-    
-    - name: Confirm dfx installation
-      run: dfx --version
+      - uses: actions/checkout@v2
 
-    - uses: ZenVoich/setup-mops@v1
-    - name: init mops
-      run: |
-        if [ ! -f mops.toml ]; then
-          sudo apt-get update
-          sudo apt-get install -y expect
-          expect <<EOF
-          spawn mops init
-          expect "Select type:"
-          send "Project\r"
-          expect eof
-          EOF
-        fi
-    
-    - name: make sure moc is installed
-      run: mops toolchain bin moc || mops toolchain use moc latest
+      - name: Install dfx
+        uses: dfinity/setup-dfx@main
+        with:
+          dfx-version: "0.15.1"
 
-    - name: run tests
-      run: mops add map
+      - name: Confirm dfx installation
+        run: dfx --version
+
+      - uses: ZenVoich/setup-mops@v1
+      
+      - name: Initialize mops
+        run: |
+          if [ ! -f mops.toml ]; then
+            sudo apt-get update
+            sudo apt-get install -y expect
+            expect <<-EOF
+            spawn mops init
+            expect "Select type:"
+            send "Project\r"
+            expect eof
+            EOF
+          fi
+      
+      - name: Ensure moc is installed
+        run: mops toolchain use moc latest || mops toolchain install
+
+      - name: Add map package
+        run: mops add map
