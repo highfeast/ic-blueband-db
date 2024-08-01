@@ -9,7 +9,7 @@ jobs:
   build-and-release:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v4
     
     - name: Install dfx
       uses: dfinity/setup-dfx@main
@@ -20,12 +20,8 @@ jobs:
       run: dfx --version
 
     - uses: ZenVoich/setup-mops@v1
-    - name: Create mops.toml
-      run: |
-        echo '[dependencies]' > mops.toml
-        echo 'map = "9.0.1"' >> mops.toml
+    - name: make sure moc is installed
+      run: mops toolchain bin moc || mops toolchain use moc latest
 
-    - name: Ensure moc is installed
-      run: |
-        mops toolchain use moc latest || mops toolchain install 
-
+    - name: run tests
+      run: mops test
