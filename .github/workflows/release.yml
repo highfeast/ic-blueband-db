@@ -20,16 +20,14 @@ jobs:
       run: dfx --version
 
     - uses: ZenVoich/setup-mops@v1
-    - name: Ensure mops is configured
+    - name: Create mops.toml
       run: |
-        # Check for mops.toml file and create if not present
-        if [ ! -f mops.toml ]; then
-          echo '[toolchain]' > mops.toml
-          echo 'moc = "latest"' >> mops.toml
-        fi
+        echo '[dependencies]' > mops.toml
+        echo 'map = "9.0.1"' >> mops.toml
 
-    - name: Add map package using mops
-      run: mops add map
+
+    - name: Install dependencies using mops
+      run: mops install
     
     - name: Build canister
       run: |
