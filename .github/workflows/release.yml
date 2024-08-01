@@ -25,6 +25,6 @@ jobs:
         run: mops toolchain use moc latest || mops toolchain install
 
       - name: Add packages
-        run: mops add base
+        run: mops add base map
 
    
