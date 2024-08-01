@@ -14,7 +14,7 @@ jobs:
     - name: Install dfx
       uses: dfinity/setup-dfx@main
       with:
-        dfx-version: "0.14.2-beta.2"  
+        dfx-version: "0.15.1"  
     
     - name: Confirm dfx installation
       run: dfx --version
