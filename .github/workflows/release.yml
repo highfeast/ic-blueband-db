@@ -18,6 +18,7 @@ jobs:
     
     - name: Confirm dfx installation
       run: dfx --version
+       l   s -la /home/runner/.cache/dfinity/versions/0.15.1
     
     - name: Setup Node.js
       uses: actions/setup-node@v2
