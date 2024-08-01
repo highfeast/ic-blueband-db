@@ -20,6 +20,13 @@ jobs:
       run: dfx --version
 
     - uses: ZenVoich/setup-mops@v1
+    - name: Ensure mops is configured
+      run: |
+        # Check for mops.toml file and create if not present
+        if [ ! -f mops.toml ]; then
+          echo '[toolchain]' > mops.toml
+          echo 'moc = "latest"' >> mops.toml
+        fi
 
     - name: Ensure moc is installed
       run: mops toolchain bin moc || mops toolchain use moc latest
